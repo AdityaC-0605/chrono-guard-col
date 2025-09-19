@@ -6,13 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { 
   User, 
   Calendar, 
-  TrendingUp, 
-  AlertTriangle, 
-  CheckCircle, 
-  Clock,
-  QrCode,
-  Upload,
-  Bell
+  Bell,
+  Users,
+  Settings
 } from "lucide-react";
 import AttendanceChart from "./AttendanceChart";
 import OTPCheckin from "./OTPCheckin";
@@ -57,146 +53,141 @@ export default function StudentDashboard({ onLogout }: StudentDashboardProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-muted/30">
       {/* Header */}
-      <div className="gradient-bg text-white p-4 mobile-safe-area">
+      <div className="bg-background p-4 mobile-safe-area border-b border-border">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <User className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="font-semibold">John Smith</h1>
-              <p className="text-white/80 text-sm">CS-2024-001</p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
-              <Bell className="w-5 h-5" />
+            <Button variant="ghost" size="sm" onClick={onLogout}>
+              ←
             </Button>
-            <Button variant="ghost" size="sm" className="text-white hover:bg-white/20" onClick={onLogout}>
-              Logout
-            </Button>
+            <h1 className="text-xl font-semibold text-foreground">Student Profile</h1>
           </div>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="glass-card p-4 text-center">
-            <div className="text-2xl font-bold">{attendancePercentage}%</div>
-            <div className="text-white/80 text-sm">Attendance</div>
-          </div>
-          <div className="glass-card p-4 text-center">
-            <Badge className={`${getRiskColor(riskScore)} text-xs`}>
-              {riskScore} Risk
-            </Badge>
-            <div className="text-white/80 text-sm mt-1">Status</div>
-          </div>
+          <Button variant="ghost" size="sm">
+            <Bell className="w-5 h-5" />
+          </Button>
         </div>
       </div>
 
-      <div className="p-4 space-y-6 -mt-4">
-        {/* Attendance Overview */}
-        <Card className="shadow-card">
+      <div className="p-4 space-y-6">
+        {/* Profile Section */}
+        <div className="text-center space-y-4">
+          <div className="w-32 h-32 mx-auto bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center shadow-card">
+            <User className="w-16 h-16 text-amber-800" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Ethan Carter</h2>
+            <p className="text-muted-foreground">Student ID: 20230012</p>
+            <p className="text-muted-foreground">Grade: 10</p>
+          </div>
+        </div>
+
+        {/* Attendance Card */}
+        <Card className="shadow-card bg-background">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-primary" />
-              Attendance Overview
-            </CardTitle>
+            <CardTitle className="text-xl">Attendance</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Overall Progress</span>
-                <span className="font-semibold">{attendancePercentage}%</span>
-              </div>
-              <Progress value={attendancePercentage} className="h-3" />
-              
-              {attendancePercentage < 75 && (
-                <div className="flex items-center gap-2 p-3 bg-warning/10 rounded-xl border border-warning/20">
-                  <AlertTriangle className="w-4 h-4 text-warning" />
-                  <span className="text-sm">
-                    You need <strong>{deficitClasses} more classes</strong> to reach 75% eligibility
-                  </span>
+                <div>
+                  <p className="text-sm text-muted-foreground">Total Classes: 150</p>
+                  <p className="text-sm text-muted-foreground">Present: 120</p>
                 </div>
-              )}
+                <div className="flex items-center gap-3">
+                  <Progress value={80} className="w-20 h-2" />
+                  <span className="text-2xl font-bold text-primary">80%</span>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Subject-wise Attendance */}
-        <Card className="shadow-card">
+        {/* Risk Score Card */}
+        <Card className="shadow-card bg-background">
           <CardHeader>
-            <CardTitle>Subject Performance</CardTitle>
+            <CardTitle className="text-xl">Predictive Risk Score</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {subjects.map((subject, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">{subject.name}</span>
-                    <Badge className={getStatusColor(subject.status)}>
-                      {subject.percentage}%
-                    </Badge>
-                  </div>
-                  <Progress value={subject.percentage} className="h-2" />
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-lg font-semibold">Low Risk</p>
+              </div>
+              <div className="relative w-20 h-20">
+                <svg className="w-20 h-20 -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    className="text-muted stroke-current"
+                    strokeWidth="3"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    className="text-accent stroke-current"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    fill="none"
+                    strokeDasharray="20, 100"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-lg font-bold">20%</span>
                 </div>
-              ))}
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Attendance Chart */}
-        <AttendanceChart />
-
-        {/* Quick Actions */}
-        <div className="grid grid-cols-2 gap-4">
-          <Button 
-            className="h-20 flex flex-col gap-2 gradient-bg text-white border-0"
-            onClick={() => setShowOTP(true)}
-          >
-            <QrCode className="w-6 h-6" />
-            <span className="text-sm">Mark Attendance</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            className="h-20 flex flex-col gap-2 border-2"
-          >
-            <Upload className="w-6 h-6" />
-            <span className="text-sm">Upload Proof</span>
-          </Button>
-        </div>
-
-        {/* Recent Activity */}
-        <Card className="shadow-card">
+        {/* Academic Performance Card */}
+        <Card className="shadow-card bg-background">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-primary" />
-              Recent Activity
-            </CardTitle>
+            <CardTitle className="text-xl">Academic Performance</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {[
-                { subject: "Computer Science", time: "10:30 AM", status: "present" },
-                { subject: "Mathematics", time: "Yesterday", status: "absent" },
-                { subject: "Physics", time: "Yesterday", status: "present" },
-              ].map((activity, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
-                  <div>
-                    <div className="font-medium text-sm">{activity.subject}</div>
-                    <div className="text-xs text-muted-foreground">{activity.time}</div>
-                  </div>
-                  {activity.status === "present" ? (
-                    <CheckCircle className="w-5 h-5 text-success" />
-                  ) : (
-                    <AlertTriangle className="w-5 h-5 text-destructive" />
-                  )}
-                </div>
-              ))}
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Average Grade</span>
+                <span className="font-semibold">A (85%)</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Assignments Completed</span>
+                <span className="font-semibold">9/10 (90%)</span>
+              </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Mentoring & Feedback Section */}
+        <Card className="shadow-card bg-background">
+          <CardHeader>
+            <CardTitle className="text-xl">Mentoring & Feedback</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground text-sm">Schedule mentoring sessions and view feedback from faculty.</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4">
+        <div className="flex justify-around items-center max-w-mobile mx-auto">
+          <Button variant="ghost" className="flex flex-col items-center gap-1 text-xs">
+            <Calendar className="w-5 h-5" />
+            <span>Attendance</span>
+          </Button>
+          <Button className="flex flex-col items-center gap-1 text-xs bg-primary text-white">
+            <User className="w-5 h-5" />
+            <span>Students</span>
+          </Button>
+          <Button variant="ghost" className="flex flex-col items-center gap-1 text-xs">
+            <Users className="w-5 h-5" />
+            <span>Faculty</span>
+          </Button>
+          <Button variant="ghost" className="flex flex-col items-center gap-1 text-xs">
+            <Settings className="w-5 h-5" />
+            <span>Settings</span>
+          </Button>
+        </div>
       </div>
     </div>
   );
