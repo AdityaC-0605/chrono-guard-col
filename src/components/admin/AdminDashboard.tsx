@@ -84,16 +84,16 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
         {/* Key Metrics */}
         <div className="grid grid-cols-3 gap-3">
-          <div className="glass-card p-3 text-center">
-            <div className="text-lg font-bold">{overallAttendance}%</div>
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-3 text-center">
+            <div className="text-lg font-bold text-white">{overallAttendance}%</div>
             <div className="text-white/80 text-xs">Overall Attendance</div>
           </div>
-          <div className="glass-card p-3 text-center">
-            <div className="text-lg font-bold">{totalStudents}</div>
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-3 text-center">
+            <div className="text-lg font-bold text-white">{totalStudents}</div>
             <div className="text-white/80 text-xs">Total Students</div>
           </div>
-          <div className="glass-card p-3 text-center">
-            <div className="text-lg font-bold">{atRiskStudents}</div>
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-3 text-center">
+            <div className="text-lg font-bold text-white">{atRiskStudents}</div>
             <div className="text-white/80 text-xs">At Risk</div>
           </div>
         </div>
