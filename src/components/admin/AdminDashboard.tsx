@@ -30,6 +30,7 @@ import {
 
 interface AdminDashboardProps {
   onLogout: () => void;
+  onShowSettings: () => void;
 }
 
 const monthlyData = [
@@ -53,7 +54,7 @@ const alertData = [
   { type: "Info", count: 12, description: "Missing faculty reports" },
 ];
 
-export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
+export default function AdminDashboard({ onLogout, onShowSettings }: AdminDashboardProps) {
   const overallAttendance = 86;
   const totalStudents = 1245;
   const atRiskStudents = 79;
@@ -75,6 +76,9 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <div className="flex gap-2">
             <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
               <Bell className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="sm" className="text-white hover:bg-white/20" onClick={onShowSettings}>
+              Settings
             </Button>
             <Button variant="ghost" size="sm" className="text-white hover:bg-white/20" onClick={onLogout}>
               Logout

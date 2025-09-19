@@ -15,9 +15,10 @@ import OTPCheckin from "./OTPCheckin";
 
 interface StudentDashboardProps {
   onLogout: () => void;
+  onShowSettings: () => void;
 }
 
-export default function StudentDashboard({ onLogout }: StudentDashboardProps) {
+export default function StudentDashboard({ onLogout, onShowSettings }: StudentDashboardProps) {
   const [showOTP, setShowOTP] = useState(false);
   const [attendancePercentage] = useState(78);
   const [riskScore] = useState("Medium");
@@ -183,7 +184,7 @@ export default function StudentDashboard({ onLogout }: StudentDashboardProps) {
             <Users className="w-5 h-5" />
             <span>Faculty</span>
           </Button>
-          <Button variant="ghost" className="flex flex-col items-center gap-1 text-xs">
+          <Button variant="ghost" className="flex flex-col items-center gap-1 text-xs" onClick={onShowSettings}>
             <Settings className="w-5 h-5" />
             <span>Settings</span>
           </Button>

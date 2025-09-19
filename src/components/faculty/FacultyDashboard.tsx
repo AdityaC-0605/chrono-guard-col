@@ -21,9 +21,10 @@ import { useToast } from "@/hooks/use-toast";
 
 interface FacultyDashboardProps {
   onLogout: () => void;
+  onShowSettings: () => void;
 }
 
-export default function FacultyDashboard({ onLogout }: FacultyDashboardProps) {
+export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDashboardProps) {
   const [currentOTP] = useState("123456");
   const [otpGenerated, setOtpGenerated] = useState(false);
   const { toast } = useToast();
@@ -110,6 +111,9 @@ export default function FacultyDashboard({ onLogout }: FacultyDashboardProps) {
           <div className="flex gap-2">
             <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
               <Bell className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="sm" className="text-white hover:bg-white/20" onClick={onShowSettings}>
+              Settings
             </Button>
             <Button variant="ghost" size="sm" className="text-white hover:bg-white/20" onClick={onLogout}>
               Logout
