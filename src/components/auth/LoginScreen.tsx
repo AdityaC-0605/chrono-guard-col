@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Clock, User, Lock } from "lucide-react";
+import { User, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import presenceLogo from "@/assets/presence-logo.png";
 
 type UserRole = "student" | "faculty" | "admin";
 
@@ -46,37 +47,15 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
       <div className="w-full max-w-mobile space-y-8">
         {/* Logo Section */}
         <div className="text-center space-y-6">
-          <div className="relative w-24 h-24 mx-auto">
-            {/* Colorful ring segments */}
-            <div className="absolute inset-0">
-              <svg className="w-24 h-24 -rotate-90" viewBox="0 0 36 36">
-                <path
-                  className="stroke-current text-primary"
-                  strokeWidth="3"
-                  fill="none"
-                  strokeDasharray="8, 2"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-                <path
-                  className="stroke-current text-accent"
-                  strokeWidth="3"
-                  fill="none"
-                  strokeDasharray="6, 4"
-                  strokeDashoffset="10"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-              </svg>
-            </div>
-            {/* Clock in center */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-card">
-                <Clock className="w-8 h-8 text-foreground" />
-              </div>
-            </div>
+          <div className="w-32 h-32 mx-auto">
+            <img 
+              src={presenceLogo} 
+              alt="Presence Logo" 
+              className="w-full h-full object-contain"
+            />
           </div>
           
           <div>
-            <h1 className="text-4xl font-bold text-foreground tracking-wide mb-2">PRESENCE</h1>
             <p className="text-muted-foreground text-lg">Sign in to your account</p>
           </div>
         </div>
