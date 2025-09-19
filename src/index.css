@@ -19,9 +19,9 @@ Purple accent theme with modern gradients and mobile-optimized spacing
     --popover-foreground: 222 87% 10%;
 
     /* Purple primary theme */
-    --primary: 200 95% 45%;
+    --primary: 262 83% 58%;
     --primary-foreground: 210 40% 98%;
-    --primary-glow: 195 100% 55%;
+    --primary-glow: 262 83% 68%;
 
     --secondary: 240 5% 96%;
     --secondary-foreground: 222 87% 10%;
@@ -72,9 +72,9 @@ Purple accent theme with modern gradients and mobile-optimized spacing
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 200 95% 55%;
+    --primary: 262 83% 68%;
     --primary-foreground: 222 47% 11%;
-    --primary-glow: 195 100% 65%;
+    --primary-glow: 262 83% 78%;
 
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
