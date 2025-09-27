@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,8 +26,12 @@ import {
   Bell,
   User,
   Building,
-  Clock
+  Clock,
+  MapPin,
+  Camera,
+  Edit3
 } from "lucide-react";
+import TimetableView from "./TimetableView";
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -55,9 +60,15 @@ const alertData = [
 ];
 
 export default function AdminDashboard({ onLogout, onShowSettings }: AdminDashboardProps) {
+  const [showTimetable, setShowTimetable] = useState(false);
   const overallAttendance = 86;
   const totalStudents = 1245;
   const atRiskStudents = 79;
+  
+  // New validation statistics
+  const geoValidationPercentage = 94;
+  const faceRecognitionPercentage = 87;
+  const manualUpdates = 23;
 
   return (
     <div className="min-h-screen bg-background">
@@ -104,12 +115,15 @@ export default function AdminDashboard({ onLogout, onShowSettings }: AdminDashbo
       </div>
 
       <div className="p-4 -mt-4">
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
-          </TabsList>
+        {showTimetable ? (
+          <TimetableView onBack={() => setShowTimetable(false)} />
+        ) : (
+          <Tabs defaultValue="overview" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="reports">Reports</TabsTrigger>
+            </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
             {/* Attendance Overview */}
@@ -172,6 +186,49 @@ export default function AdminDashboard({ onLogout, onShowSettings }: AdminDashbo
                       <Progress value={dept.attendance} className="h-2" />
                     </div>
                   ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Validation Statistics */}
+            <Card className="shadow-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-primary" />
+                  Validation Statistics
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-success" />
+                        <span className="text-sm font-medium">Geo-location Validations</span>
+                      </div>
+                      <span className="font-semibold">{geoValidationPercentage}%</span>
+                    </div>
+                    <Progress value={geoValidationPercentage} className="h-2" />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Camera className="w-4 h-4 text-primary" />
+                        <span className="text-sm font-medium">Facial Recognition</span>
+                      </div>
+                      <span className="font-semibold">{faceRecognitionPercentage}%</span>
+                    </div>
+                    <Progress value={faceRecognitionPercentage} className="h-2" />
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <Edit3 className="w-4 h-4 text-warning" />
+                      <span className="text-sm font-medium">Manual Updates</span>
+                    </div>
+                    <Badge variant="secondary">{manualUpdates} this month</Badge>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -384,7 +441,11 @@ export default function AdminDashboard({ onLogout, onShowSettings }: AdminDashbo
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" className="h-12">
+                  <Button 
+                    variant="outline" 
+                    className="h-12"
+                    onClick={() => setShowTimetable(true)}
+                  >
                     <Calendar className="w-4 h-4 mr-2" />
                     View Schedule
                   </Button>
@@ -396,7 +457,8 @@ export default function AdminDashboard({ onLogout, onShowSettings }: AdminDashbo
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        )}
       </div>
     </div>
   );

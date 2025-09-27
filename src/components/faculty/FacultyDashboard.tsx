@@ -18,6 +18,8 @@ import {
   Check
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import AnimatedOTP from "./AnimatedOTP";
+import StudentValidationView from "./StudentValidationView";
 
 interface FacultyDashboardProps {
   onLogout: () => void;
@@ -27,6 +29,7 @@ interface FacultyDashboardProps {
 export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDashboardProps) {
   const [currentOTP] = useState("123456");
   const [otpGenerated, setOtpGenerated] = useState(false);
+  const [showValidationView, setShowValidationView] = useState(false);
   const { toast } = useToast();
 
   const classes = [
@@ -51,15 +54,15 @@ export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDa
   ];
 
   const atRiskStudents = [
-    { name: "John Smith", id: "CS-2024-001", percentage: 68, subjects: ["Physics", "Math"] },
-    { name: "Sarah Johnson", id: "CS-2024-015", percentage: 72, subjects: ["Computer Science"] },
-    { name: "Mike Wilson", id: "CS-2024-032", percentage: 65, subjects: ["Physics", "Math", "English"] },
+    { name: "Jaspreet Singh", id: "CS-2024-001", percentage: 68, subjects: ["Physics", "Math"] },
+    { name: "Simran Kaur", id: "CS-2024-015", percentage: 72, subjects: ["Computer Science"] },
+    { name: "Harpreet Singh", id: "CS-2024-032", percentage: 65, subjects: ["Physics", "Math", "English"] },
   ];
 
   const absenceRequests = [
     { 
       id: 1,
-      student: "Emma Davis", 
+      student: "Manpreet Kaur", 
       studentId: "CS-2024-008",
       subject: "Computer Science",
       date: "2024-01-15",
@@ -69,7 +72,7 @@ export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDa
     },
     { 
       id: 2,
-      student: "Alex Brown", 
+      student: "Gurpreet Singh", 
       studentId: "CS-2024-022",
       subject: "Mathematics",
       date: "2024-01-14",
@@ -104,8 +107,8 @@ export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDa
               <User className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="font-semibold">Dr. Jane Peterson</h1>
-              <p className="text-white/80 text-sm">Computer Science Faculty</p>
+            <h1 className="font-semibold">Dr. Harpreet Kaur</h1>
+            <p className="text-white/80 text-sm">Computer Science Faculty</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -147,31 +150,68 @@ export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDa
           </TabsList>
 
           <TabsContent value="classes" className="space-y-4">
-            {/* OTP Generation */}
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <QrCode className="w-5 h-5 text-primary" />
-                  Attendance Management
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {!otpGenerated ? (
-                  <Button 
-                    className="w-full gradient-bg text-white border-0"
-                    onClick={generateOTP}
-                  >
-                    Generate OTP for Current Class
-                  </Button>
-                ) : (
-                  <div className="text-center p-4 bg-primary/10 rounded-xl border border-primary/20">
-                    <p className="text-sm text-muted-foreground mb-2">Current OTP</p>
-                    <p className="text-3xl font-bold text-primary font-mono">{currentOTP}</p>
-                    <p className="text-xs text-muted-foreground mt-2">Expires in 25 seconds</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            {showValidationView ? (
+              <StudentValidationView onBack={() => setShowValidationView(false)} />
+            ) : (
+              <>
+                {/* OTP Generation */}
+                <AnimatedOTP 
+                  onGenerate={generateOTP}
+                  onViewDetails={() => setShowValidationView(true)}
+                />
+
+                {/* Today's Classes */}
+                <div className="space-y-3">
+                  <h3 className="font-semibold">Today's Classes</h3>
+                  {classes.map((classItem) => (
+                    <Card key={classItem.id} className="shadow-card">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start mb-3">
+                          <div>
+                            <h4 className="font-semibold">{classItem.name}</h4>
+                            <p className="text-sm text-muted-foreground">
+                              {classItem.time} • Room {classItem.room}
+                            </p>
+                          </div>
+                          <Badge 
+                            className={classItem.percentage >= 80 ? 
+                              "bg-success/20 text-success border-success/20" : 
+                              "bg-warning/20 text-warning border-warning/20"
+                            }
+                          >
+                            {classItem.percentage}%
+                          </Badge>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span>Attendance</span>
+                            <span>{classItem.present}/{classItem.students} students</span>
+                          </div>
+                          <Progress value={classItem.percentage} className="h-2" />
+                        </div>
+                        
+                        <div className="flex gap-2 mt-3">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex-1"
+                            onClick={() => setShowValidationView(true)}
+                          >
+                            <FileText className="w-4 h-4 mr-2" />
+                            View Details
+                          </Button>
+                          <Button variant="outline" size="sm" className="flex-1">
+                            <Download className="w-4 h-4 mr-2" />
+                            Export
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
 
             {/* Today's Classes */}
             <div className="space-y-3">
@@ -205,7 +245,12 @@ export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDa
                     </div>
                     
                     <div className="flex gap-2 mt-3">
-                      <Button variant="outline" size="sm" className="flex-1">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="flex-1"
+                        onClick={() => setShowValidationView(true)}
+                      >
                         <FileText className="w-4 h-4 mr-2" />
                         View Details
                       </Button>
@@ -218,6 +263,7 @@ export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDa
                 </Card>
               ))}
             </div>
+            )}
           </TabsContent>
 
           <TabsContent value="students" className="space-y-4">

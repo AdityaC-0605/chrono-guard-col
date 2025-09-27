@@ -11,7 +11,7 @@ interface OTPCheckinProps {
 
 export default function OTPCheckin({ onBack }: OTPCheckinProps) {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [currentOTP] = useState("123456"); // Demo OTP
@@ -84,7 +84,7 @@ export default function OTPCheckin({ onBack }: OTPCheckinProps) {
   };
 
   const getProgressPercentage = () => {
-    return (timeLeft / 30) * 100;
+    return (timeLeft / 15) * 100;
   };
 
   if (status === "success") {
