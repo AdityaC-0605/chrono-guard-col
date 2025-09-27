@@ -1,18 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Users, 
   AlertTriangle, 
-  CheckCircle, 
-  Clock, 
   FileText,
   Bell,
   User,
-  QrCode,
   Download,
   X,
   Check
@@ -107,8 +103,8 @@ export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDa
               <User className="w-6 h-6" />
             </div>
             <div>
-            <h1 className="font-semibold">Dr. Harpreet Kaur</h1>
-            <p className="text-white/80 text-sm">Computer Science Faculty</p>
+              <h1 className="font-semibold">Dr. Harpreet Kaur</h1>
+              <p className="text-white/80 text-sm">Computer Science Faculty</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -211,58 +207,6 @@ export default function FacultyDashboard({ onLogout, onShowSettings }: FacultyDa
                   ))}
                 </div>
               </>
-            )}
-
-            {/* Today's Classes */}
-            <div className="space-y-3">
-              <h3 className="font-semibold">Today's Classes</h3>
-              {classes.map((classItem) => (
-                <Card key={classItem.id} className="shadow-card">
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h4 className="font-semibold">{classItem.name}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {classItem.time} • Room {classItem.room}
-                        </p>
-                      </div>
-                      <Badge 
-                        className={classItem.percentage >= 80 ? 
-                          "bg-success/20 text-success border-success/20" : 
-                          "bg-warning/20 text-warning border-warning/20"
-                        }
-                      >
-                        {classItem.percentage}%
-                      </Badge>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Attendance</span>
-                        <span>{classItem.present}/{classItem.students} students</span>
-                      </div>
-                      <Progress value={classItem.percentage} className="h-2" />
-                    </div>
-                    
-                    <div className="flex gap-2 mt-3">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="flex-1"
-                        onClick={() => setShowValidationView(true)}
-                      >
-                        <FileText className="w-4 h-4 mr-2" />
-                        View Details
-                      </Button>
-                      <Button variant="outline" size="sm" className="flex-1">
-                        <Download className="w-4 h-4 mr-2" />
-                        Export
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
             )}
           </TabsContent>
 
